@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
-Begin VB.Form Form2 
+Begin VB.Form Form2l 
    Caption         =   "Form1"
    ClientHeight    =   3990
    ClientLeft      =   60
@@ -59,7 +59,7 @@ Begin VB.Form Form2
    Begin VB.CommandButton Command1 
       Caption         =   "Command1"
       Height          =   525
-      Left            =   2325
+      Left            =   2370
       TabIndex        =   2
       Top             =   2130
       Width           =   1425
@@ -97,7 +97,7 @@ Begin VB.Form Form2
       Width           =   1815
    End
 End
-Attribute VB_Name = "Form2"
+Attribute VB_Name = "Form2l"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -114,7 +114,7 @@ Private Sub Command1_Click()
    Call Conectar_BD
    
    comando_SQL = "INSERT INTO sistema_ceuma.info(fname, lname) VALUES ('" & fname & "',  '" & lname & "')"
-   Conexao.Execute comando_SQL
+   conexao.Execute comando_SQL
    
    Call Desconectar_BD
    

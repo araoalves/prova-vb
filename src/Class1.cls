@@ -11,8 +11,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Public con As New ADODB.Connection
-Public rx As New ADODB.Connection
-Public rxd As New ADODB.Connection
+
 
 
