@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
-Begin VB.Form Form2l 
+Begin VB.Form Form2 
    Caption         =   "Form1"
    ClientHeight    =   3990
    ClientLeft      =   60
@@ -64,15 +64,15 @@ Begin VB.Form Form2l
       Top             =   2130
       Width           =   1425
    End
-   Begin VB.TextBox Text2 
+   Begin VB.TextBox senhaa 
       Height          =   465
       Left            =   3720
       TabIndex        =   1
       Text            =   "Text2"
-      Top             =   420
+      Top             =   435
       Width           =   2070
    End
-   Begin VB.TextBox Text1 
+   Begin VB.TextBox nomee 
       Height          =   480
       Left            =   885
       TabIndex        =   0
@@ -81,39 +81,40 @@ Begin VB.Form Form2l
       Width           =   2265
    End
    Begin VB.Label Label2 
-      Caption         =   "Label2"
+      Caption         =   "SENHA"
       Height          =   300
-      Left            =   3810
+      Left            =   3825
       TabIndex        =   4
-      Top             =   1170
+      Top             =   1155
       Width           =   1635
    End
    Begin VB.Label Label1 
-      Caption         =   "Label1"
+      Caption         =   "NOME"
       Height          =   240
-      Left            =   930
+      Left            =   915
       TabIndex        =   3
-      Top             =   1215
+      Top             =   1185
       Width           =   1815
    End
 End
-Attribute VB_Name = "Form2l"
+Attribute VB_Name = "Form2"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub Command1_Click()
-   Dim comando_SQL As String
-   Dim fname As String
-   Dim lname As String
    
-   fname = Me.Text1
-   lname = Me.Text2
+   Dim nome As String
+   Dim senha As String
+   
+   nome = Me.nomee
+   
+   senha = Me.senhaa
    
    'Adiciona dados a tabela
    Call Conectar_BD
    
-   comando_SQL = "INSERT INTO sistema_ceuma.info(fname, lname) VALUES ('" & fname & "',  '" & lname & "')"
+   comando_SQL = "INSERT INTO sistema_ceuma.info(fname, lname) VALUES ('" & nome & "',  '" & senha & "')"
    conexao.Execute comando_SQL
    
    Call Desconectar_BD
@@ -122,9 +123,4 @@ Private Sub Command1_Click()
 
 End Sub
 
-
-
-Private Sub Form_Load()
-   Set Connect = New Class1
-End Sub
 
