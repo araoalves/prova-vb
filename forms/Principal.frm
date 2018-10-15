@@ -44,7 +44,7 @@ Private Sub menu_aluno_Click(Index As Integer)
 End Sub
 
 Private Sub menu_curso_Click(Index As Integer)
-   Form2.Show
+   FormCadCurso.Show
    Unload Me
 End Sub
 

@@ -10,6 +10,24 @@ Begin VB.Form FormCadAluno
    ScaleHeight     =   7710
    ScaleWidth      =   11550
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton btnVoltar 
+      Caption         =   "Voltar"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   12
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   540
+      Index           =   1
+      Left            =   5430
+      TabIndex        =   17
+      Top             =   6105
+      Width           =   1680
+   End
    Begin MSAdodcLib.Adodc Adodc1 
       Height          =   420
       Left            =   645
@@ -329,6 +347,11 @@ Private Sub btnSalvar_Click()
    
    MsgBox "Dados inseridos com sucesso"
       
+   FormPrincipal.Show
+   Unload Me
+End Sub
+
+Private Sub btnVoltar_Click(Index As Integer)
    FormPrincipal.Show
    Unload Me
 End Sub
