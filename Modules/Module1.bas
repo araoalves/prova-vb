@@ -22,8 +22,8 @@ End Sub
 
 'Fecha a conexao e libera as variaveis
 Sub Desconectar_BD()
-   conexao.Close
-   Set conexao = Nothing
+   'conexao.Close
+   'Set conexao = Nothing
 End Sub
 
 

@@ -27,6 +27,14 @@ Begin VB.Form FormPrincipal
    Begin VB.Menu menu_alterar 
       Caption         =   "Alterar"
       Index           =   1
+      Begin VB.Menu alCurso 
+         Caption         =   "Curso"
+         Index           =   1
+      End
+      Begin VB.Menu alAluno 
+         Caption         =   "Aluno"
+         Index           =   1
+      End
    End
    Begin VB.Menu menu_listar 
       Caption         =   "Listar Todos"
@@ -38,6 +46,17 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub alAluno_Click(Index As Integer)
+   FormCadAltAluno.Show
+   Unload Me
+End Sub
+
+Private Sub alCurso_Click(Index As Integer)
+   FormCadCurso.Show
+   Unload Me
+End Sub
+
+
 Private Sub menu_aluno_Click(Index As Integer)
    FormCadAluno.Show
    Unload Me

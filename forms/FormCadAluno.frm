@@ -111,9 +111,9 @@ Begin VB.Form FormCadAluno
    End
    Begin VB.TextBox TxtCpf 
       Height          =   390
-      Left            =   585
+      Left            =   570
       TabIndex        =   11
-      Top             =   1935
+      Top             =   1950
       Width           =   1455
    End
    Begin VB.TextBox TxtNome 
@@ -152,11 +152,10 @@ Begin VB.Form FormCadAluno
       EndProperty
       Height          =   420
       ItemData        =   "FormCadAluno.frx":0000
-      Left            =   615
+      Left            =   600
       List            =   "FormCadAluno.frx":000D
       TabIndex        =   7
-      Text            =   "Cursos"
-      Top             =   840
+      Top             =   825
       Width           =   1695
    End
    Begin VB.Label lblCep 
@@ -316,9 +315,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
 Private Sub btnSalvar_Click()
    
-   Dim comando_SQL As String
+   Dim comando_Sql As String
    
    Dim nome As String
    Dim cpf As String
@@ -327,21 +328,23 @@ Private Sub btnSalvar_Click()
    Dim rua As String
    Dim bairro As String
    Dim telefone As String
+   Dim curso As String
    
-   nome = Me.txtNome
+   nome = Me.TxtNome
    cpf = Me.TxtCpf
    email = Me.TxtEmail
    cep = Me.TxtCep
    rua = Me.TxtRua
    bairro = Me.TxtBairro
    telefone = Me.TxtTelefone
+   curso = Me.cbCursos
    
    'Adiciona dados a tabela
    Call Conectar_BD
    
-   comando_SQL = "INSERT INTO sistema_ceuma.alunos(nome, cpf, email, cep, rua, bairro, telefone) VALUES ('" & nome & "', '" & cpf & "', '" & email & "', '" & cep & "', '" & rua & "', '" & bairro & "', '" & telefone & "')"
+   comando_Sql = "INSERT INTO sistema_ceuma.alunos(nome, cpf, email, cep, rua, bairro, telefone, curso) VALUES ('" & nome & "', '" & cpf & "', '" & email & "', '" & cep & "', '" & rua & "', '" & bairro & "', '" & telefone & "', '" & curso & "')"
    
-   conexao.Execute comando_SQL
+   conexao.Execute comando_Sql
    
    Call Desconectar_BD
    
@@ -355,3 +358,27 @@ Private Sub btnVoltar_Click(Index As Integer)
    FormPrincipal.Show
    Unload Me
 End Sub
+
+Private Sub cbCursos_Change()
+   Call Conectar_BD
+   
+   On Error Resume Next
+   
+   'Operação para copiar dados da tabela e lançar na listBox
+   Set consulta = New ADODB.Recordset
+   comando_Sql = "SELECT * FROM sistema_ceuma.cursos.nome" 'Pegando todos os dados da tabela especifica
+   consulta.Open comando_Sql, conexao, adOpenStatic, adLockReadOnly
+   
+   'Me.DataGrid1.Close   'ListBox do frame
+   
+   'Adicionando dados ao ListBox do Form
+   While Not consulta.EOF 'Realiza a consult até o ultimo campo
+      cbCursos.AddItem consulta!nome
+      consulta.MoveNext
+   Wend
+   
+   consulta.Close          'Fechamento da consulta
+   Set consulta = Nothing  'Limpa Banco de dados
+   Call Desconectar_BD     'Desconectando do BD
+End Sub
+
