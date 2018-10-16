@@ -48,11 +48,13 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub alAluno_Click(Index As Integer)
    FormCadAltAluno.Show
+      
    Unload Me
 End Sub
 
 Private Sub alCurso_Click(Index As Integer)
-   FormCadCurso.Show
+   'FormCadCurso.Show
+   Form1.Show
    Unload Me
 End Sub
 

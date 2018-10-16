@@ -330,7 +330,7 @@ Private Sub btnSalvar_Click()
    Dim telefone As String
    Dim curso As String
    
-   nome = Me.TxtNome
+   nome = Me.txtNome
    cpf = Me.TxtCpf
    email = Me.TxtEmail
    cep = Me.TxtCep

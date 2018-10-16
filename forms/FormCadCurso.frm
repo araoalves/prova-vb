@@ -44,8 +44,8 @@ Begin VB.Form FormCadCurso
    End
    Begin MSAdodcLib.Adodc Adodc1 
       Height          =   435
-      Left            =   8835
-      Top             =   7740
+      Left            =   8520
+      Top             =   7260
       Visible         =   0   'False
       Width           =   2865
       _ExtentX        =   5054
@@ -104,7 +104,7 @@ Begin VB.Form FormCadCurso
       Index           =   0
       Left            =   9765
       TabIndex        =   4
-      Top             =   960
+      Top             =   975
       Width           =   1680
    End
    Begin VB.TextBox txtHorario 
@@ -223,6 +223,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Private Sub Form_Initialize()
    
    Call Conectar_BD
@@ -273,11 +274,11 @@ Private Sub btnSalvar1_Click(Index As Integer)
    Dim data As String
    
    codCurso = Me.codCurso
-   
    nome = Me.txtNome
    horario = Me.txtHorario
-  ' data = Me.txtData
-   'data = Year(data) & "/" & Month(data) & "/" & Day(data) 'Conversão de data para o formato de BD MYSQL ISO-8601
+   
+   data = Me.TextBoxData
+   data = Year(data) & "/" & Month(data) & "/" & Day(data) 'Conversão de data para o formato de BD MYSQL ISO-8601
    
     
    '############Trabalhando com inserção de dados na tabela####################
@@ -294,23 +295,27 @@ Private Sub btnSalvar1_Click(Index As Integer)
    MsgBox "Dados inseridos com sucesso"
    
    Call Desconectar_BD
+   Call limpar_campos
       
-   FormPrincipal.Show
-   Unload Me
+   
+   'FormPrincipal.Show
+   'Unload Me
+   
+End Sub
+
+Private Sub limpar_campos()
+   Me.txtNome = ""
+   Me.txtHorario = ""
+   Me.codCurso = ""
+   
+   Call Form_Initialize
+   
 End Sub
 
 Private Sub btnVoltar_Click(Index As Integer)
    FormPrincipal.Show
    Unload Me
-End Sub
 
-Sub limpar_campos()
-
-   Me.txtNome = ""
-   Me.txtHorario = ""
-   Me.txtData = ""
-   
-   Call UserForm_Initialize
 End Sub
 
 Private Sub ListBox1_Click()
@@ -324,5 +329,4 @@ Private Sub ListBox1_Click()
    
    Call pesquisa
 End Sub
-
 

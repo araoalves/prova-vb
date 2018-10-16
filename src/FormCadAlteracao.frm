@@ -9,6 +9,29 @@ Begin VB.Form FormCadAltAluno
    ScaleHeight     =   8895
    ScaleWidth      =   15825
    StartUpPosition =   3  'Windows Default
+   Begin VB.TextBox txt_codigo 
+      Height          =   540
+      Left            =   10470
+      TabIndex        =   27
+      Top             =   3630
+      Width           =   2340
+   End
+   Begin VB.CommandButton btn_buscar 
+      Caption         =   "Buscar"
+      Height          =   495
+      Left            =   13320
+      TabIndex        =   26
+      Top             =   3630
+      Width           =   1185
+   End
+   Begin VB.CommandButton btn_excel 
+      Caption         =   "Excel"
+      Height          =   465
+      Left            =   8340
+      TabIndex        =   25
+      Top             =   4110
+      Width           =   720
+   End
    Begin VB.ListBox ListBox3 
       BeginProperty Font 
          Name            =   "Arial Narrow"
@@ -63,6 +86,7 @@ Begin VB.Form FormCadAltAluno
       Width           =   2625
    End
    Begin VB.ListBox ListBox1 
+      Columns         =   4
       BeginProperty Font 
          Name            =   "Arial Narrow"
          Size            =   12
@@ -93,7 +117,6 @@ Begin VB.Form FormCadAltAluno
       Height          =   495
       Left            =   3345
       TabIndex        =   20
-      Text            =   "Text7"
       Top             =   2925
       Width           =   3510
    End
@@ -110,7 +133,6 @@ Begin VB.Form FormCadAltAluno
       Height          =   540
       Left            =   585
       TabIndex        =   19
-      Text            =   "Text6"
       Top             =   2880
       Width           =   1680
    End
@@ -127,7 +149,6 @@ Begin VB.Form FormCadAltAluno
       Height          =   495
       Left            =   8670
       TabIndex        =   18
-      Text            =   "Text5"
       Top             =   1845
       Width           =   4965
    End
@@ -144,7 +165,6 @@ Begin VB.Form FormCadAltAluno
       Height          =   525
       Left            =   3330
       TabIndex        =   17
-      Text            =   "Text4"
       Top             =   1830
       Width           =   4680
    End
@@ -161,7 +181,6 @@ Begin VB.Form FormCadAltAluno
       Height          =   465
       Left            =   555
       TabIndex        =   16
-      Text            =   "Text3"
       Top             =   1830
       Width           =   1980
    End
@@ -178,7 +197,6 @@ Begin VB.Form FormCadAltAluno
       Height          =   450
       Left            =   8625
       TabIndex        =   15
-      Text            =   "Text2"
       Top             =   750
       Width           =   4965
    End
@@ -193,9 +211,8 @@ Begin VB.Form FormCadAltAluno
          Strikethrough   =   0   'False
       EndProperty
       Height          =   465
-      Left            =   3315
+      Left            =   3300
       TabIndex        =   14
-      Text            =   "Text1"
       Top             =   765
       Width           =   4650
    End
@@ -247,14 +264,23 @@ Begin VB.Form FormCadAltAluno
       EndProperty
       Height          =   420
       ItemData        =   "FormCadAlteracao.frx":000C
-      Left            =   540
+      Left            =   525
       List            =   "FormCadAlteracao.frx":0019
       TabIndex        =   11
-      Top             =   795
+      Top             =   780
       Width           =   2325
    End
    Begin VB.CommandButton btn_excluir 
       Caption         =   "Excluir"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   450
       Left            =   8925
       TabIndex        =   10
@@ -263,6 +289,15 @@ Begin VB.Form FormCadAltAluno
    End
    Begin VB.CommandButton btn_editar 
       Caption         =   "Editar"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   420
       Left            =   8865
       TabIndex        =   9
@@ -285,6 +320,15 @@ Begin VB.Form FormCadAltAluno
       TabIndex        =   8
       Top             =   5595
       Width           =   1230
+   End
+   Begin VB.Label Label1 
+      Caption         =   "Codigo do curso"
+      Height          =   540
+      Index           =   0
+      Left            =   10485
+      TabIndex        =   28
+      Top             =   3240
+      Width           =   2040
    End
    Begin VB.Label lblCursos 
       Caption         =   "Cursos:"
@@ -436,12 +480,19 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub btn_editar_Click()
+   Call editarCursos
+End Sub
+
+Private Sub btn_excel_Click()
+   MsgBox "A tabela será importada para a planilha"
+   Call importar_BD
+End Sub
+
 Private Sub btn_salvar_Click()
    Call Conectar_BD
    
    Dim comando_Sql As String
-   
-   Dim codCurso As Integer
    
    Dim nome As String
    Dim rua As String
@@ -453,7 +504,6 @@ Private Sub btn_salvar_Click()
    Dim curso As String
    
    nome = Me.txt_nome
-
    rua = Me.txt_rua
    cpf = Me.txt_cpf
    email = Me.txt_email
@@ -476,6 +526,22 @@ Private Sub btn_salvar_Click()
    MsgBox "Dados inseridos com sucesso"
    
    Call Desconectar_BD
+   Call limpar_campos
+   
+End Sub
+
+Private Sub limpar_campos()
+   Me.txt_nome = ""
+   Me.txt_rua = ""
+   Me.txt_cpf = ""
+   Me.txt_email = ""
+   Me.txt_bairro = ""
+   Me.txt_cep = ""
+   Me.txt_telefone = ""
+   Me.cb_curso = ""
+   
+   Call Form_Initialize
+   
 End Sub
 
 Private Sub Form_Initialize()
@@ -491,8 +557,6 @@ Private Sub Form_Initialize()
    TextBoxHora.Enabled = False
    
    Dim comando_Sql As String
-   'Dim linhalistbox As Integer
-   
      
    On Error Resume Next
 
@@ -504,8 +568,7 @@ Private Sub Form_Initialize()
    Me.ListBox1.Clear    'ListBox do frame
    Me.ListBox2.Clear
    Me.ListBox3.Clear
-   
-   
+      
    'Adicionando dados ao ListBox do Form
    While Not consulta.EOF 'Realiza a consult até o ultimo campo
       ListBox1.AddItem (consulta!nome)
@@ -521,48 +584,89 @@ Private Sub Form_Initialize()
    Call Desconectar_BD     'Desconectando do BD
 End Sub
 
-
-Private Sub btn_editar_Click()
-   Dim id As Integer
-   Dim comando_Sql As String
-   
-   If txt_id = "" Then
-      Exit Sub
-   Else
-      id = txt_id
-   End If
+Private Sub pesquisa()
    
    Call Conectar_BD
    
+   Dim nome As Integer
+   Dim comando_Sql As String
+      
    Set consulta = New ADODB.Recordset
-   comando_Sql = "SELECT * FROM sistema_ceuma.cursos id like '" & id & "' "
-   consulta.Open comando_Sql, conexao, , adLockOptimistic
+   
+   comando_Sql = "SELECT * FROM sistema_ceuma.alunos where cod_aluno= " & txt_codigo & " "
+   consulta.Open comando_Sql, conexao, adOpenStatic, adLockReadOnly
    
    On Error Resume Next
-   'Exibe nos campos do formulário, o conteúdo de cada campo encontrado na consulta
    
-   consulta(1) = Me.txt_nome
-   consulta(2) = Me.txt_nome
-   consulta(3) = Me.txt_horario
+   Me.txt_nome = consulta(1)
+   Me.txt_rua = consulta(2)
+   Me.txt_cpf = consulta(3)
+   Me.txt_email = consulta(4)
+   Me.txt_bairro = consulta(5)
+   Me.txt_cep = consulta(6)
+   Me.txt_telefone = consulta(7)
+   Me.cb_curso = consulta(8)
+      
+      
+   Me.btn_editar.Enabled = True
+   Me.btn_excluir.Enabled = True
    
-   'Atualiza o BD
-   consulta.Update
+   Me.btn_salvar.Enabled = False
    
-   'Exibe mensagem de sucesso na alteração de dados
-   MsgBox "Registro Alterado com Sucesso!", vbDefaultButton1, "Alteração"
-   
-   'Chama a rotina que libera as variaveis de objeto do BD
    Call Desconectar_BD
    
-   Call limpar_campos
+   Exit Sub
+End Sub
+
+Sub importar_BD()
+   Dim comando_Sql As String
+   Call Conectar_BD
+   
+   'Copia od dados das tabelas e lanca em uma planiha
+   Set consulta = New ADODB.Recordset
+   comando_Sql = "SELECT * FROM sistema_ceuma" 'Extrai os dados da tabela
+   consulta.Open comando_Sql, conexao, adOpenStatic, adLockReadOnly
+   
+   With Project1 'Nome da planilha onde serão lançados os dados (Nome do VBA Project)
+   .ClearContents
+   .CopyFromRecordset consulta
+   End With
+   
+   Call Desconectar_BD
    
 End Sub
 
-Private Sub TxtTelefone_Change()
+Private Sub editarCursos()
+Call Conectar_BD
+   
+
+   Dim comando_Sql As String
+   Set consulta = New ADODB.Recordset
+     
+   
+   comando_Sql = "UPDATE sistema_ceuma.alunos SET nome = '" & txt_nome & "', email = '" & txt_email & "', cpf = '" & txt_cpf & "', rua = '" & txt_rua & "', bairro = '" & txt_bairro & "', cep = '" & txt_cep & "', telefone = '" & txt_telefone & "', curso = '" & txt_curso & "' WHERE cod_aluno = " & txt_codigo & ""
+   consulta.Open comando_Sql, conexao, adOpenStatic, adLockReadOnly
+   
+   MsgBox "dados alterados com sucesso"
+   
+   Call pesquisa
+   
+   Call Desconectar_BD
+   
+   MsgBox "Dados inseridos com sucesso"
+   
+   Call Desconectar_BD
+   Call limpar_campos
+End Sub
+
+Private Sub btn_buscar_Click()
+   Call pesquisa
+
+   btn_editar.Enabled = True
+Call pesquisa
+
+btn_editar.Enabled = True
 
 End Sub
 
-Private Sub Text2_Change()
-
-End Sub
 
